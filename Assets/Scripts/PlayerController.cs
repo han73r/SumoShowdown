@@ -7,27 +7,33 @@ public class PlayerController : MonoBehaviour {
     private CharacterController _characterController;
     private Vector3 _moveDirection = Vector3.zero;
 
-    [SerializeField] private GameObject _focalPoint;
-
+    private GameObject _focalPoint;
     [SerializeField] private float _moveSpeed = 5.0f;
     private Rigidbody _playerRb;
     private IInputManager _inputManager;
 
     // TASK // Add Injector class
-    //public void Inject(IInputManager inputManager) {
-    //    _inputManager = inputManager;
-    //}
+    public void Inject(IInputManager inputManager) {
+        _inputManager = inputManager;
+    }
 
     //https://learn.unity.com/tutorial/lesson-4-1-watch-where-you-re-going-1?uv=2020.3&projectId=5cf96846edbc2a2bcde6d0fc#
 
     private void Start() {
+        _focalPoint = GameObject.Find("Focal Point");
         _playerRb = GetComponent<Rigidbody>();
         _inputManager = InputManager.Instance;
     }
 
     private void Update() {
+
         float forwardInput = _inputManager.VerticalInput();
         _playerRb.AddForce(_focalPoint.transform.forward * _moveSpeed *  forwardInput);
+        var a = new List<int>(99999);
+        for (int i = 0; i < 99999; i++) {
+            a.Add(i);
+        }
+
     }
 
 
@@ -40,3 +46,4 @@ public class PlayerController : MonoBehaviour {
     //    _characterController.Move(_moveDirection * Time.deltaTime);
     //}
 }
+

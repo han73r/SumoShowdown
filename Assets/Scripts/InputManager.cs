@@ -1,22 +1,17 @@
 using UnityEngine;
-
-public interface IInputManager {
-    float HorizontalInput();
-    float VerticalInput();
-}
-
 public class InputManager : MonoBehaviour, IInputManager {
+    private static readonly object lockObject = new object();
     private static InputManager _instance;
     public static InputManager Instance {
         get {
-            if (_instance == null) {
-                _instance = FindObjectOfType<InputManager>();
+            lock (lockObject) {
                 if (_instance == null) {
                     GameObject inputManager = new GameObject("InputManager");
                     _instance = inputManager.AddComponent<InputManager>();
+                    DontDestroyOnLoad(inputManager);
                 }
+                return _instance;
             }
-            return _instance;
         }
     }
     public float HorizontalInput() {
